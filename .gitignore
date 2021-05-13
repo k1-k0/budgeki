@@ -1,0 +1,10 @@
+.idea/
+
+# Virtual environment
+venv/
+
+# Python internal files
+*.py[cod]
+
+# VSCode
+.vscode/
