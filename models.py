@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, Float, String, Time
+from sqlalchemy import Column, ForeignKey, Integer, Float, String, DateTime
 from sqlalchemy.orm import relationship
 
 from database import Base
@@ -42,7 +42,8 @@ class Category(Base):
     name = Column(String)
     group_id = Column(Integer, ForeignKey('groups.id'))
     group = relationship('Group', back_populates='categories')
-    budget = relationship('Budget', back_populates='category')
+    budgets = relationship('Budget', back_populates='category')
+    transactions = relationship('Transaction', back_populates='category')
 
 
 class Budget(Base):
@@ -52,6 +53,18 @@ class Budget(Base):
     name = Column(String)
     budgeted = Column(Float)
     activity = Column(Float)
-    timestamp = Column(Time)
+    timestamp = Column(DateTime)
     category_id = Column(Integer, ForeignKey('categories.id'))
     category = relationship('Category', back_populates='categories')
+
+
+class Transaction(Base):
+    __tablename__ = 'transactions'
+
+    id = Column(Integer, primary_key=True, index=True)
+    timestamp = Column(DateTime)
+    amount = Column(Float)
+    from_category_id = Column(Integer, ForeignKey('categories.id'))
+    to_category_id = Column(Integer, ForeignKey('categories.id'))
+    from_category = relationship('Category', back_populates='categories')
+    to_category = relationship('Category', back_populates='categories')
