@@ -22,7 +22,6 @@ class Transaction(TransactionBase):
 
 
 class BudgetBase(BaseModel):
-    name: str
     budgeted: float = 0
     activity: float = 0
 
@@ -34,6 +33,7 @@ class BudgetCreate(BudgetBase):
 class Budget(BudgetBase):
     id: int
     category_id: int
+    group_id: int
     timestamp: datetime
 
     class Config:
@@ -70,6 +70,7 @@ class Group(GroupBase):
     id: int
     account_id: int
     categories: List[Category]
+    budgets: List[Budget]
 
     class Config:
         orm_mode = True
@@ -77,6 +78,7 @@ class Group(GroupBase):
 
 class AccountBase(BaseModel):
     name: str
+    value: float
 
 
 class AccountCreate(AccountBase):

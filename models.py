@@ -20,6 +20,7 @@ class Account(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
+    value = Column(Float)
     owner_id = Column(Integer, ForeignKey('users.id'))
     owner = relationship('User', back_populates='accounts')
     groups = relationship('Group', back_populates='account')
@@ -33,6 +34,7 @@ class Group(Base):
     account_id = Column(Integer, ForeignKey('accounts.id'))
     account = relationship('Account', back_populates='groups')
     categories = relationship('Category', back_populates='group')
+    budgets = relationship('Budget', back_populates='group')
 
 
 class Category(Base):
@@ -50,12 +52,11 @@ class Budget(Base):
     __tablename__ = 'budgets'
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
     budgeted = Column(Float)
     activity = Column(Float)
     timestamp = Column(DateTime)
     category_id = Column(Integer, ForeignKey('categories.id'))
-    category = relationship('Category', back_populates='categories')
+    group_id = Column(Integer, ForeignKey('groups.id'))
 
 
 class Transaction(Base):
