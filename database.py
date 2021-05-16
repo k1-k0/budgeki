@@ -5,7 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-SQLALCHEMY_DATABASE_URL = os.getenv("BUDGETKI_DB_URL")
+SQLALCHEMY_DATABASE_URL = os.getenv("BUDGEKI_DB_URL")
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
