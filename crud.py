@@ -13,8 +13,8 @@ def get_user_by_email(db: Session, email: str) -> schemas.User:
 
 
 def create_user(db: Session, user: schemas.UserCreate) -> schemas.User:
-    fake_hashed_password = user.hashed_password + 'hash'    # FIXME: hash password
-    db_user = models.User(email=user.email, hached_password=user.hashed_password)
+    fake_hashed_password = user.password + 'hash'    # FIXME: Remove simulation of hash password
+    db_user = models.User(name=user.name, email=user.email, password=fake_hashed_password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

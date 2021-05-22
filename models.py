@@ -10,7 +10,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, index=True)
     email = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
+    password = Column(String)
 
     accounts = relationship('Account', back_populates='owner')
 
@@ -45,7 +45,6 @@ class Category(Base):
     group_id = Column(Integer, ForeignKey('groups.id'))
     group = relationship('Group', back_populates='categories')
     budgets = relationship('Budget', back_populates='category')
-    transactions = relationship('Transaction', back_populates='category')
 
 
 class Budget(Base):
@@ -56,7 +55,10 @@ class Budget(Base):
     activity = Column(Float)
     timestamp = Column(DateTime)
     category_id = Column(Integer, ForeignKey('categories.id'))
+    category = relationship('Category', back_populates='budgets')
     group_id = Column(Integer, ForeignKey('groups.id'))
+    group = relationship('Group', back_populates='budgets')
+    transactions = relationship('Transaction', back_populates='budget')
 
 
 class Transaction(Base):
@@ -65,7 +67,5 @@ class Transaction(Base):
     id = Column(Integer, primary_key=True, index=True)
     timestamp = Column(DateTime)
     amount = Column(Float)
-    from_category_id = Column(Integer, ForeignKey('categories.id'))
-    to_category_id = Column(Integer, ForeignKey('categories.id'))
-    from_category = relationship('Category', back_populates='categories')
-    to_category = relationship('Category', back_populates='categories')
+    budget_id = Column(Integer, ForeignKey('budgets.id'))
+    budget = relationship('Budget', back_populates='transactions')

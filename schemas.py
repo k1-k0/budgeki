@@ -6,8 +6,7 @@ from pydantic import BaseModel
 
 class TransactionBase(BaseModel):
     amount: float
-    from_category: int
-    to_category: int
+    budget: int
 
 
 class TransactionCreate(TransactionBase):
@@ -35,6 +34,7 @@ class Budget(BudgetBase):
     category_id: int
     group_id: int
     timestamp: datetime
+    transactions: List[Transaction] = []
 
     class Config:
         orm_mode = True
@@ -52,7 +52,6 @@ class Category(CategoryBase):
     id: int
     group_id: int
     budgets: List[Budget]
-    transactions: List[Transaction] = []
 
     class Config:
         orm_mode = True
@@ -97,11 +96,10 @@ class Account(AccountBase):
 class UserBase(BaseModel):
     name: str
     email: str
-    hashed_password: str
 
 
 class UserCreate(UserBase):
-    pass
+    password: str
 
 
 class User(UserBase):
