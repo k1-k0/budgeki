@@ -11,8 +11,8 @@ class User(Base):
     name = Column(String, unique=True, index=True)
     email = Column(String, unique=True, index=True)
     password = Column(String)
-
-    accounts = relationship('Account', back_populates='owner')
+    accounts = relationship('Account', back_populates='user')
+    groups = relationship('Group', back_populates='user')
 
 
 class Account(Base):
@@ -21,9 +21,8 @@ class Account(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
     value = Column(Float)
-    owner_id = Column(Integer, ForeignKey('users.id'))
-    owner = relationship('User', back_populates='accounts')
-    groups = relationship('Group', back_populates='account')
+    user_id = Column(Integer, ForeignKey('users.id'))
+    user = relationship('User', back_populates='accounts')
 
 
 class Group(Base):
@@ -31,8 +30,8 @@ class Group(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)
-    account_id = Column(Integer, ForeignKey('accounts.id'))
-    account = relationship('Account', back_populates='groups')
+    user_id = Column(Integer, ForeignKey('users.id'))
+    user = relationship('User', back_populates='groups')
     categories = relationship('Category', back_populates='group')
     budgets = relationship('Budget', back_populates='group')
 
