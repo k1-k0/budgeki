@@ -22,6 +22,21 @@ def create_user(db: Session, user: schemas.UserCreate) -> schemas.User:
     return db_user
 
 
+def update_user(db: Session, user: schemas.User) -> schemas.User:
+    db_user = db.query(models.User).filter(models.User.id == user.id).first()
+    if db_user.name != user.name:
+        db_user.name = user.name
+    if db_user.email != user.email:
+        db_user.email = user.email
+    for account in user.accounts:
+        if account not in db_user.accounts:
+            db_user.append(account)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+
 def create_account(db: Session, account: schemas.AccountCreate, user_id: int) -> schemas.Account:
     db_account = models.Account(name=account.name, value=account.value, user_id=user_id)
     db.add(db_account)
