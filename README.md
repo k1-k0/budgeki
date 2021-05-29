@@ -1,4 +1,4 @@
-# Budgetki
+# Budgeki
 
 Service for hardcore planning your budget
 
